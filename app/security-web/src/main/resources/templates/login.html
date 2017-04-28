@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>极融登录认证中心</title>
+
+        <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-flex.min.css}"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+
+        <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+        <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+            $(function () {
+                var username = $('#username');
+                var password = $('#password');
+
+                $('#form').on('submit', function () {
+                    return (!!username.val()) && (!!password.val());
+                 });
+            });
+        /*]]>*/
+        </script>
+    </head>
+    <body>
+      <div class="container-fluid login">
+          <div class="row h-100 flex-items-xs-middle flex-items-xs-center">
+              <div class="text-xs-center">
+                  <img th:src="@{/images/login-logo.png}"/>
+                  <form id="form" th:action="@{/login}" method="post">
+                      <div class="card p-2">
+                          <div class="card-block">
+                              <div class="form-group row mb-1 px-0">
+                                  <label for="username" class="col-form-label col-xs-3">用户名:</label>
+                                  <input id="username" class="form-control col-xs" name="username" type="text"
+                                         placeholder="请输入用户名"/>
+                              </div>
+                              <div class="form-group row mb-2 px-0">
+                                  <label for="password" class="col-form-label col-xs-3">密码:</label>
+                                  <input id="password" class="form-control col-xs" name="password" type="password"
+                                         placeholder="请输入密码"/>
+                              </div>
+                              <div class="form-group row">
+                                  <input type="submit" class="form-control btn btn-primary w-100" value="登录"/>
+                              </div>
+
+                              <input type="hidden" name="tenantId" th:value="${#ctx.requestAttributes.application.tenantId}"/>
+                              <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+                              <div th:if="${param.error}" class="row text-xs-center text-danger mt-1">
+                                  <span class="mx-auto text-xs-center small">
+                                    用户名或密码错误
+                                  </span>
+                              </div>
+                          </div>
+                      </div>
+                  </form>
+
+              </div>
+              <div class="copyright small">
+                Copyright © 2016 All rights reserved 上海极融 版权所有   沪ICP备16021613号-2
+              </div>
+          </div>
+      </div>
+    </body>
+</html>

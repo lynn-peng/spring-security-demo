@@ -1,0 +1,19 @@
+.login {
+   width: 100vw;
+   height: 100vh;
+
+   background-image: url('../images/bg.png');
+   background-size: 100% 100%;
+}
+
+.copyright {
+   position: fixed;
+   bottom: 10px;
+
+   color: #fff;
+
+   width: 100vw;
+   left: 0;
+   right: 0;
+   text-align: center;
+}
