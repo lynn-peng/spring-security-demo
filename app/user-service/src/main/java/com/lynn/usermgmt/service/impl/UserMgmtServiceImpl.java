@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.lynn.userMgmt.facade.exception.UserAlreadyExistsException;
 import com.lynn.userMgmt.facade.exception.UserNotFoundException;
 import com.lynn.userMgmt.facade.model.AddUserParam;
+import com.lynn.userMgmt.facade.model.UpdateUserParam;
 import com.lynn.userMgmt.facade.model.UserDto;
 import com.lynn.userMgmt.facade.service.UserMgmtService;
 import com.lynn.usermgmt.service.model.UserPo;
@@ -26,36 +27,6 @@ public class UserMgmtServiceImpl implements UserMgmtService {
     }
 
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-    private String prop1;
-
-    public String getProp1() {
-        return prop1;
-    }
-
-    public void setProp1(String prop1) {
-        this.prop1 = prop1;
-    }
-
-    public String getProp2() {
-        return prop2;
-    }
-
-    public void setProp2(String prop2) {
-        this.prop2 = prop2;
-    }
-
-    private String prop2;
-
-    public UserMgmtServiceImpl() {
-
-    }
-
-    public UserMgmtServiceImpl(String prop1, String prop2) {
-        this.prop1 = prop1;
-        this.prop2 = prop2;
-
-    }
 
     @Override
     public UserDto queryUserByName(String name) {
@@ -81,6 +52,39 @@ public class UserMgmtServiceImpl implements UserMgmtService {
         USERS.put(user.getLoginName(), po);
     }
 
+    @Override
+    public void deleteUser(String name) {
+        USERS.remove(name);
+    }
+
+    @Override
+    public void updateUser(String name, UpdateUserParam param) {
+        if (USERS.containsKey(name)) {
+            UserPo po = USERS.get(name);
+            if (param.getDisplayName() != null)
+                po.setDisplayName(param.getDisplayName());
+            if (param.getPassword() != null)
+                po.setPassword(param.getPassword());
+            if (param.getAddress() != null)
+                po.setAddress(param.getAddress());
+        } else {
+            throw new UserNotFoundException(String.format("%s not found.", name));
+        }
+    }
+
+    private static void populateUser() {
+        UserPo po = new UserPo();
+        po.setLoginName("lynn001");
+        po.setPassword("lynn001");
+        USERS.put(po.getLoginName(), po);
+        po.setLoginName("lynn002");
+        po.setPassword("lynn002");
+        USERS.put(po.getLoginName(), po);
+        po.setLoginName("lynn003");
+        po.setPassword("lynn003");
+        USERS.put(po.getLoginName(), po);
+    }
+
     private UserDto toUserDto(UserPo po) {
         UserDto dto = new UserDto();
         dto.setLoginName(po.getLoginName());
@@ -102,20 +106,6 @@ public class UserMgmtServiceImpl implements UserMgmtService {
 
     public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
-    }
-
-    private static void populateUser() {
-        UserPo po = new UserPo();
-        po.setLoginName("lynn001");
-        po.setPassword("lynn001");
-        USERS.put(po.getLoginName(), po);
-        po.setLoginName("lynn002");
-        po.setPassword("lynn002");
-        USERS.put(po.getLoginName(), po);
-        po.setLoginName("lynn003");
-        po.setPassword("lynn003");
-        USERS.put(po.getLoginName(), po);
-
     }
 
 }
