@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.lynn.userMgmt.facade.model.AddUserParam;
-import com.lynn.userMgmt.facade.model.UserDto;
-import com.lynn.userMgmt.facade.service.UserMgmtService;
+import com.lynn.userMgmt.facade.model.AddCatParam;
+import com.lynn.userMgmt.facade.model.CatDto;
+import com.lynn.userMgmt.facade.service.CatMgmtService;
 
 @Controller
 @RequestMapping
@@ -21,22 +21,22 @@ public class UserMgmtController {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserMgmtController.class);
 
     @Autowired
-    private UserMgmtService userMgmtService;
+    private CatMgmtService catMgmtService;
 
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(path = "/users/{name}", method = RequestMethod.GET)
-    public UserDto queryUser(@PathVariable String name) {
+    public CatDto queryUser(@PathVariable String name) {
         LOGGER.info("Querying user {}.", name);
 
-        return userMgmtService.queryUserByName(name);
+        return catMgmtService.queryCatByName(name);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(path = "/users/{name}", method = RequestMethod.POST)
-    public void addUser(@RequestBody AddUserParam param) {
-        LOGGER.info("Add user {}.", param.getLoginName());
+    public void addUser(@RequestBody AddCatParam param) {
+        LOGGER.info("Add user {}.", param.getFormalName());
 
-        userMgmtService.addUser(param);
+        catMgmtService.addCat(param);
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
