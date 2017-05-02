@@ -23,7 +23,7 @@ public class UserMgmtController {
     @Autowired
     private CatMgmtService catMgmtService;
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(path = "/users/{name}", method = RequestMethod.GET)
     public CatDto queryUser(@PathVariable String name) {
         LOGGER.info("Querying user {}.", name);
@@ -31,7 +31,7 @@ public class UserMgmtController {
         return catMgmtService.queryCatByName(name);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(path = "/users/{name}", method = RequestMethod.POST)
     public void addUser(@RequestBody AddCatParam param) {
         LOGGER.info("Add user {}.", param.getFormalName());

@@ -1,23 +1,38 @@
 package com.lynn.catmgmt.configurer;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
+
+import com.lynn.catmgmt.security.LoginUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Bean
+    protected UserDetailsService userDetailsService() {
+        LoginUserDetailsService service = new LoginUserDetailsService();
+        return service;
+    }
+
     @Autowired
-    public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("lynn001").password("lynn001").roles("ADMIN");
-        auth.inMemoryAuthentication().withUser("lynn002").password("lynn002").roles("USER");
-        auth.inMemoryAuthentication().withUser("lynn003").password("lynn003").roles("ADMIN", "DBA");
+    private UserDetailsService userDetailsService;
+
+    @Bean
+    protected AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(userDetailsService);
+        return provider;
     }
 
     @Override
@@ -26,5 +41,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/", "/home")
                 .access("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')").and().formLogin()
                 .loginPage("/login");
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(authenticationProvider())
+                .userDetailsService(userDetailsService);
     }
 }
