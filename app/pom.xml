@@ -18,7 +18,7 @@
 		<jdk.source.version>1.8</jdk.source.version>
 		<jdk.target.version>1.8</jdk.target.version>
 		<maven.compiler.plugin.version>3.5.1</maven.compiler.plugin.version>
-		<user.mgmt.version>0.0.1-SNAPSHOT</user.mgmt.version>
+		<cat.mgmt.version>0.0.1-SNAPSHOT</cat.mgmt.version>
 		<spring.security.version>4.2.2.RELEASE</spring.security.version>
 	</properties>
 
@@ -26,18 +26,18 @@
 		<dependencies>
 			<dependency>
 				<groupId>com.lynn.spring.security</groupId>
-				<artifactId>user-facade</artifactId>
-				<version>${user.mgmt.version}</version>
+				<artifactId>cat-facade</artifactId>
+				<version>${cat.mgmt.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.lynn.spring.security</groupId>
-				<artifactId>user-service</artifactId>
-				<version>${user.mgmt.version}</version>
+				<artifactId>cat-service</artifactId>
+				<version>${cat.mgmt.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.lynn.spring.security</groupId>
-				<artifactId>security-web</artifactId>
-				<version>${user.mgmt.version}</version>
+				<artifactId>cat-web</artifactId>
+				<version>${cat.mgmt.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
@@ -77,9 +77,9 @@
 	</build>
 
 	<modules>
-		<module>security-web</module>
-		<module>user-service</module>
-		<module>user-facade</module>
+		<module>cat-web</module>
+		<module>cat-service</module>
+		<module>cat-facade</module>
 	</modules>
 
 </project>
