@@ -39,3 +39,5 @@ app/dal/src/main/mappergenerator/generate/
 ### Jacoco ###
 jacoco.exec
 jacoco-it.exec
+
+*.log

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lynn.cat.mgmt.dal.dao.mybatis.mapper.PrivilegeMapper">
+  <resultMap type="com.lynn.cat.mgmt.dal.po.PrivilegePo" id="privilegeMap">
+    <id column="id" jdbcType="VARCHAR" property="privilegeId" />
+  </resultMap>
+
+  <sql id="fullColumnList">
+    id
+  </sql>
+
+  <select id="queryUserPrivileges" parameterType="map" resultMap="privilegeMap">
+  SELECT 
+    <include refid="fullColumnList" />
+  FROM
+    privilege, user_privilege
+  WHERE
+    user_privilege.id = #(userId,jdbcType=INTEGER)
+  AND
+    privilege.id = user_privilege.privilege_id
+  </select>
+
+</mapper>

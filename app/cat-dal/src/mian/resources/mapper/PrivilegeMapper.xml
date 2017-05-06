@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lynn.cat.mgmt.dal.dao.mybatis.mapper.LoginUserMgmtMapper">
+  <resultMap type="com.lynn.cat.mgmt.dal.po.LoginUserPo" id="loginUser">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="login_name" jdbcType="VARCHAR" property="loginName" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="enabled" jdbcType="BOOLEAN" property="enabled" />
+    <result column="locked" jdbcType="BOOLEAN" property="locked" />
+  </resultMap>
+
+  <sql id="fullColumnList">
+    id,
+    login_name,
+    password,
+    enabled,
+    locked
+  </sql>
+
+  <select id="queryUserByName" parameterType="map" resultMap="loginUser">
+  SELECT 
+    <include refid="fullColumnList" />
+  FROM
+    login_user
+  WHERE
+    login_name=#{loginName,jdbcType=VARCHAR}
+  </select>
+
+</mapper>
